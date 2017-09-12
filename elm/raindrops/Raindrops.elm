@@ -1,5 +1,7 @@
 module Raindrops exposing (..)
 
+-- DANGER: went "a little" overboard with my implementation
+
 
 type RaindropSpeak
     = Pling
@@ -22,7 +24,28 @@ convertToSpeak raindrop =
 
 raindrops : Int -> String
 raindrops number =
-    "if all isNothing ()"
+    let
+        results =
+            List.map (\f -> f number)
+                [ hasFactor3
+                , hasFactor5
+                , hasFactor7
+                ]
+    in
+    if List.all isNothing results then
+        toString number
+    else
+        List.foldr
+            (\x ys ->
+                case x of
+                    Nothing ->
+                        ys
+
+                    Just x ->
+                        convertToSpeak x ++ ys
+            )
+            ""
+            results
 
 
 isNothing : Maybe a -> Bool
@@ -33,16 +56,6 @@ isNothing maybe =
 
         Just _ ->
             False
-
-
-zipWith : (a -> b -> c) -> List a -> List b -> List c
-zipWith =
-    zip a b
-
-
-factors : List (Int -> Maybe RaindropSpeak)
-factors =
-    [ hasFactor3, hasFactor5, hasFactor7 ]
 
 
 hasFactor : Int -> Int -> Bool
