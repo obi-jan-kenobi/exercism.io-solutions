@@ -20,11 +20,10 @@ respondTo r =
         Whatever -> "Whatever."
 
 determinePhrase :: [Char] -> Response
-determinePhrase p =
-    let trimmed = filter (not . isSpace) p
-    in
-    if (trimmed == []) then Silence 
-    else if ((fmap toUpper trimmed == trimmed) && (fmap toLower trimmed /= trimmed)) then Yelling
-    else if ((head $ reverse trimmed) == '?') then Question
-    else Whatever
+determinePhrase p
+    | trimmed == [] = Silence 
+    | ((fmap toUpper trimmed == trimmed) && (fmap toLower trimmed /= trimmed)) = Yelling
+    | ((head $ reverse trimmed) == '?') = Question
+    | otherwise = Whatever
+    where trimmed = filter (not . isSpace) p
 
