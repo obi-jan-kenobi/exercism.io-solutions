@@ -2,8 +2,8 @@ var Bob = function () {}
 
 Bob.prototype.hey = function (input) {
   if (isEmpty(input)) return "Fine. Be that way!"
+  if (isYelling(input)) return "Whoa, chill out!"
   if (isQuestion(input)) return "Sure."
-  if (isYelling(input)) return "Whoa, chill out!" 
   return "Whatever."
 }
 
