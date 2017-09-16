@@ -1,5 +1,6 @@
 module RunLength (decode, encode) where
 
+import Data.List (group)
 import Data.Char (isAlpha, isSpace)
 
 decode :: String -> String
@@ -19,11 +20,8 @@ expand :: (Int, Char) -> String
 expand (x, c) = replicate x c
 
 encode :: String -> String
-encode [] = []
-encode text = go (head text) (head $ drop 1 text) 0 (tail text)
-        where 
-            go _ _ _ [] = []
-            go prev curr count rest = 
-                if (prev == curr) 
-                then go curr (head rest) (count + 1) (tail rest)
-                else (show $ count + 1) ++ prev : go curr (head rest) 0 (tail rest)
+encode = concat . compress . group
+
+compress :: [String] -> [String]
+compress = map (\x -> if length x == 1 then x else (show $ length x) ++ [head x])
+
