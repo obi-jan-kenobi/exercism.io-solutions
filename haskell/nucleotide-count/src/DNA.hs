@@ -10,13 +10,14 @@ nucleotides = M.fromList
     ]
 
 nucleotideCounts :: String -> Either String (M.Map Char Int)
-nucleotideCounts xs = foldr (\x ys -> ys >>= isValid x) (Right nucleotides) xs
+nucleotideCounts xs = foldr (\x ys -> ys >>= incNucs x) (Right nucleotides) xs
 
-isValid :: Char -> M.Map Char Int -> Either String (M.Map Char Int)
-isValid nuc map = case M.lookup nuc map of
+incNucs :: Char -> M.Map Char Int -> Either String (M.Map Char Int)
+incNucs nuc map = case M.lookup nuc map of
     Nothing -> Left "invalid DNA-String"
-    Just count -> Right $ incNucleotide nuc map
+    Just count -> Right $ incCount nuc map
 
-incNucleotide nucleotide map = M.insertWith (+) nucleotide 1 map
+incCount :: Ord a => a -> M.Map a Int -> M.Map a Int
+incCount key map = M.insertWith (+) key 1 map
 
     
