@@ -19,5 +19,3 @@ incNucs nuc map = case M.lookup nuc map of
 
 incCount :: Ord a => a -> M.Map a Int -> M.Map a Int
 incCount key map = M.insertWith (+) key 1 map
-
-    
